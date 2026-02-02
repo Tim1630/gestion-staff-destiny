@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Gestion Staff - DestinyV2</title>
+
+<style>
+/* ===== FOND ===== */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, #4c1d95, #db2777); /* violet -> rose */
+  min-height: 100vh;
+  color: #f0f0f5;
+}
+
+/* ===== CONTENEUR ===== */
+.wrapper {
+  max-width: 850px;
+  margin: auto;
+  padding: 60px 30px;
+}
+
+.card {
+  background: rgba(75, 29, 149, 0.85); /* violet transparent */
+  backdrop-filter: blur(8px);
+  border-radius: 18px;
+  padding: 40px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+/* ===== TITRE ===== */
+h1 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 32px;
+}
+
+.subtitle {
+  opacity: 0.8;
+  margin-bottom: 35px;
+  color: #f3e8ff;
+}
+
+/* ===== FORM ===== */
+.section {
+  margin-bottom: 28px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input, textarea, select {
+  width: 100%;
+  background: #6b21a8; /* violet foncé */
+  border: 1px solid #d946ef; /* rose */
+  border-radius: 10px;
+  padding: 14px;
+  color: #f0f0f5;
+  font-size: 15px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #e9d5ff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* ===== SELECT COULEURS ===== */
+select.up-oui, select.down-non {
+  border-color: #ec4899; /* rose vif */
+  color: #ec4899;
+}
+
+select.up-non, select.down-oui {
+  border-color: #9333ea; /* violet foncé */
+  color: #9333ea;
+}
+
+/* ===== BOUTON COPIER ===== */
+.copy {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: linear-gradient(135deg, #db2777, #9333ea); /* rose -> violet */
+  color: white;
+  border: none;
+  padding: 15px 26px;
+  border-radius: 50px;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  transition: 0.3s;
+}
+
+.copy:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+  <div class="card">
+
+    <h1>🛠️ Gestion Staff - DestinyV2</h1>
+    <div class="subtitle">Outil interne – avis & suivi staff</div>
+
+    <div class="section">
+      <span class="label">👤 Staff</span>
+      <input id="staff" placeholder="Nom du staff">
+    </div>
+
+    <div class="section">
+      <span class="label">🎭 Rôle</span>
+      <input id="role" placeholder="Rôle actuel">
+    </div>
+
+    <div class="section">
+      <span class="label">📝 Avis global</span>
+      <textarea id="avis" placeholder="Rédige l’avis global"></textarea>
+    </div>
+
+    <div class="section">
+      <span class="label">🟢 Points positifs</span>
+      <textarea id="positif" placeholder="Une ligne = un point"></textarea>
+    </div>
+
+    <div class="section">
+      <span class="label">🟠 À améliorer</span>
+      <textarea id="ameliorer" placeholder="Une ligne = un point"></textarea>
+    </div>
+
+    <div class="section">
+      <span class="label">⬆️ UP</span>
+      <select id="up" onchange="updateColors()">
+        <option value="Non">Non</option>
+        <option value="Oui">Oui</option>
+      </select>
+    </div>
+
+    <div class="section">
+      <span class="label">⬇️ DOWN</span>
+      <select id="down" onchange="updateColors()">
+        <option value="Non">Non</option>
+        <option value="Oui">Oui</option>
+      </select>
+    </div>
+
+  </div>
+</div>
+
+<button class="copy" onclick="copier()">📋 Copier</button>
+
+<script>
+function updateColors() {
+  up.className = up.value === "Oui" ? "up-oui" : "up-non";
+  down.className = down.value === "Oui" ? "down-oui" : "down-non";
+}
+updateColors();
+
+function copier() {
+  const texte =
+`━━━━━━━━━━━
+**Staff**
+> ${staff.value}
+
+**Rôle**
+> ${role.value}
+
+**Avis global**
+> ${avis.value}
+
+**Points positifs**
+> ${positif.value.replace(/\n/g, '\n> ')}
+
+**À améliorer**
+> ${ameliorer.value.replace(/\n/g, '\n> ')}
+
+**UP**
+> ${up.value === "Oui" ? "Oui ✅ / Non ❌" : "Oui ❌ / Non ✅"}
+
+**DOWN**
+> ${down.value === "Oui" ? "Oui ✅ / Non ❌" : "Oui ❌ / Non ✅"}
+━━━━━━━━━━━`;
+
+  navigator.clipboard.writeText(texte);
+  alert("Copié. Prêt pour Discord.");
+}
+</script>
+
+</body>
+</html>
